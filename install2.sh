@@ -1,16 +1,22 @@
 #!/bin/bash
 
 # Instalar dependencias necesarias
-sudo apt-get install -y build-essential bluez bluetooth libbluetooth-dev pulseaudio-module-bluetooth zstd unzip libcairo2-dev libgirepository1.0-dev libbluetooth-dev libdbus-1-dev bluez-tools python3-cairo-dev rfkill meson patchelf bluez ubertooth adb python-is-python3 git libncursesw5-dev libssl-dev libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev wget binutils-arm-linux-gnueabi openjdk-17-jdk openjdk-17-jre android-sdk-platform-tools
+sudo apt-get install -y build-essential bluez bluetooth libbluetooth-dev pulseaudio-module-bluetooth zstd unzip liblzma-dev libcairo2-dev libgirepository1.0-dev libbluetooth-dev libdbus-1-dev bluez-tools python3-cairo-dev rfkill meson patchelf bluez ubertooth adb python-is-python3 git libncursesw5-dev libssl-dev libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev wget binutils-arm-linux-gnueabi openjdk-17-jdk openjdk-17-jre android-sdk-platform-tools
 
 # Instalar pyenv para gestionar las versiones de Python
 curl https://pyenv.run | bash
 
-# Configurar pyenv en el entorno
-export PATH="$HOME/.pyenv/bin:$PATH"
-eval "$(pyenv init --path)"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
+# Configurar pyenv automáticamente
+export PYENV_ROOT="$HOME/.pyenv"
+if [[ -d $PYENV_ROOT/bin ]]; then
+    export PATH="$PYENV_ROOT/bin:$PATH"
+    eval "$(pyenv init --path)"
+    eval "$(pyenv init -)"
+    eval "$(pyenv virtualenv-init -)"
+fi
+
+# Recargar el entorno para que los cambios tengan efecto sin reiniciar la terminal
+exec "$SHELL"
 
 # Instalar versiones de Python 3.10 y 3.12
 pyenv install 3.10.0
@@ -122,4 +128,7 @@ git clone https://github.com/sgxgsx/blueborne-CVE-2017-1000251 "$BASEDIR/modules
 
 # Compilar blueborne CVE
 cd "$BASEDIR/modules/tools/blueborne/blueborne-CVE-2017-1000251"
-gcc -o
+gcc -o blueborne_cve_2017_1000251 blueborne.c -lbluetooth
+
+# Establecer permisos en el BASEDIR
+sudo chown -R $USER:$USER "$BASEDIR"

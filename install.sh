@@ -1,70 +1,38 @@
 #!/bin/bash
 
-sudo apt-get install -y python3 python3-dev python3-pip build-essential python3.11-venv python3-venv
-sudo apt-get install -y bluez bluetooth libbluetooth-dev
-sudo apt-get install -y pulseaudio-module-bluetooth
-sudo apt-get install -y zstd unzip
-sudo apt install -y python3-pip python3-dev libcairo2-dev libgirepository1.0-dev \
-                 libbluetooth-dev libdbus-1-dev bluez-tools python3-cairo-dev \
-                 rfkill meson patchelf bluez ubertooth adb python-is-python3
-sudo apt-get install -y git
-sudo apt-get install -y libncursesw5-dev libssl-dev libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev
-sudo apt install -y build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev wget
-sudo apt-get install binutils-arm-linux-gnueabi 
-
-# Setting up bluetooth assistant
-sudo apt install -y openjdk-17-jdk openjdk-17-jre
-sudo apt-get install -y android-sdk-platform-tools
-
+sudo apt-get install -y build-essential bluez bluetooth libbluetooth-dev pulseaudio-module-bluetooth zstd unzip libcairo2-dev libgirepository1.0-dev libbluetooth-dev libdbus-1-dev bluez-tools python3-cairo-dev rfkill meson patchelf bluez ubertooth adb python-is-python3 git libncursesw5-dev libssl-dev libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev wget binutils-arm-linux-gnueabi openjdk-17-jdk openjdk-17-jre android-sdk-platform-tools
+sudo apt-get install -y python3 python3-dev python3-pip python3-venv
 
 # Configure Bluetooth adapter
 sudo killall pulseaudio
 sudo -u vagrant pulseaudio --start
 sudo systemctl restart bluetooth
 
-
 # Creating a base directory and assigning to a current user
 mkdir /usr/share/BlueToolkit
 sudo chown $USER:$USER /usr/share/BlueToolkit
 
-
 # cloning bluekit
 git clone https://github.com/sgxgsx/bluekit.git /usr/share/BlueToolkit/bluekit
 
-
-
-mkdir /usr/share/BlueToolkit/bluekit/.logs 
+mkdir /usr/share/BlueToolkit/bluekit/.logs
 mkdir /usr/share/BlueToolkit/modules
 mkdir /usr/share/BlueToolkit/modules/tools -p
-
-
 python3 -m venv /usr/share/BlueToolkit/.venv
 source /usr/share/BlueToolkit/.venv/bin/activate
-#python3 -m pip install -r requirements.txt
-python3 -m pip install pwntools cmd2 pure-python-adb pyelftools==0.29 2to3 scapy psutil tqdm pyyaml #--break-system-packages
-python3 -m pip install tabulate colorama 
+python3 -m pip install --upgrade pip setuptools wheel pure-python-adb pwntools cmd2 pyelftools scapy psutil tqdm tabulate colorama 2to3 pyyaml
 
 # Install pybluez
 python3 -m pip install git+https://github.com/pybluez/pybluez.git#egg=pybluez #--break-system-packages
 
-
 # installing bluekit
-
 cd /usr/share/BlueToolkit/bluekit/
 pip install .
-
-
-
-
 cd /usr/share/BlueToolkit/modules
-
-
 ## Installing tools in modules
-
 #### BluetoothAssistant
 ##### Needs access to the phone, it should be plugged in!!
 git clone https://github.com/sgxgsx/BluetoothAssistant /usr/share/BlueToolkit/modules/BluetoothAssistant
-
 cd BluetoothAssistant
 chmod +x /usr/share/BlueToolkit/modules/install.sh
 /usr/share/BlueToolkit/modules/BluetoothAssitant/install.sh
@@ -97,7 +65,6 @@ cd ..
 
 #### Cannot install it as there might be no Braktooth connected to the machine
 
-
 #### Installing bluing
 
 mkdir /usr/share/BlueToolkit/modules/tools/bluing
@@ -108,20 +75,9 @@ tar -xvf Python-3.10.0.tgz
 
 cd Python-3.10.0
 ./configure --enable-optimizations
-make -j 4
+make -j8
 sudo make altinstall
 cd ..
-
-#wget https://salsa.debian.org/debian/dbus-python/-/archive/upstream/1.3.2/dbus-python-upstream-1.3.2.tar.gz
-#tar -xvzf dbus-python-upstream-1.3.2.tar.gz
-#cd dbus-python-upstream-1.3.2
-#./configure
-#make
-#sudo make install
-#sudo python3.10 setup.py install
-#sudo cp -r dbus/ /usr/local/lib/python3.10/site-packages/
-#cd ..
-
 
 mkdir bluing
 cd bluing
@@ -138,9 +94,6 @@ cd ../..
 
 source /usr/share/BlueToolkit/.venv/bin/activate
 #### Installing BLUR
-
-
-
 cd /usr/share/BlueToolkit/modules/tools
 git clone https://github.com/francozappa/blur
 

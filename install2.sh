@@ -26,6 +26,7 @@ pyenv virtualenv 3.12.0 bluekit-venv-3.12
 BASEDIR="${1:-$(pwd)}"
 mkdir -p "$BASEDIR"
 sudo chown $USER:$USER "$BASEDIR"
+sudo chmod 777 -R "$BASEDIR"
 
 # Configurar adaptador Bluetooth
 sudo killall pulseaudio
@@ -33,10 +34,10 @@ pulseaudio --start
 sudo systemctl restart bluetooth
 
 # Clonar el repositorio de bluekit
-git clone https://github.com/sgxgsx/bluekit.git "$BASEDIR/bluekit"
+sudo git clone https://github.com/sgxgsx/bluekit.git "$BASEDIR/bluekit"
 
 # Crear los directorios necesarios
-mkdir "$BASEDIR/bluekit/.logs"
+sudo mkdir "$BASEDIR/bluekit/.logs"
 mkdir -p "$BASEDIR/modules/tools"
 
 # Activar el entorno virtual de Python 3.10 para bluekit
@@ -50,9 +51,9 @@ python3 -m pip install git+https://github.com/pybluez/pybluez.git#egg=pybluez
 cd "$BASEDIR/bluekit/"
 pip install .
 cd "$BASEDIR/modules"
-git clone https://github.com/sgxgsx/BluetoothAssistant "$BASEDIR/modules/BluetoothAssistant"
+sudo git clone https://github.com/sgxgsx/BluetoothAssistant "$BASEDIR/modules/BluetoothAssistant"
 cd "$BASEDIR/modules/BluetoothAssistant"
-chmod +x "$BASEDIR/modules/BluetoothAssistant/install.sh"
+sudo chmod +x "$BASEDIR/modules/BluetoothAssistant/install.sh"
 "$BASEDIR/modules/BluetoothAssistant/install.sh"
 
 # Bdaddr

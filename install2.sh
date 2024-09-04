@@ -23,7 +23,7 @@ pyenv virtualenv 3.10.0 bluekit-venv-3.10
 pyenv virtualenv 3.12.0 bluekit-venv-3.12
 
 # Definir BASEDIR dinámico, por defecto es $HOME/BlueToolkit si no se especifica otra ruta
-BASEDIR="${1:-$HOME/BlueToolkit}"
+BASEDIR="${1:-$(pwd)}"
 mkdir -p "$BASEDIR"
 sudo chown $USER:$USER "$BASEDIR"
 

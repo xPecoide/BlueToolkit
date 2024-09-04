@@ -1,4 +1,5 @@
 #!/bin/bash
 
-# should call adb to install an apk on the Nexus 5 phone or another one 
-/usr/share/BlueToolkit/modules/BluetoothAssistant/install.sh
+# should call adb to install an apk on the Nexus 5 phone or another one.
+BASEDIR="${1:-$(pwd)}"
+"$BASEDIR/modules/BluetoothAssistant/install.sh"

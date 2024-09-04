@@ -9,15 +9,10 @@ curl https://pyenv.run | bash
 
 # Configurar pyenv automáticamente
 export PYENV_ROOT="$HOME/.pyenv"
-if [[ -d $PYENV_ROOT/bin ]]; then
-    export PATH="$PYENV_ROOT/bin:$PATH"
-    eval "$(pyenv init --path)"
-    eval "$(pyenv init -)"
-    eval "$(pyenv virtualenv-init -)"
-fi
-
-# Recargar el entorno para que los cambios tengan efecto sin reiniciar la terminal
-exec "$SHELL"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init --path)"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
 
 # Instalar versiones de Python 3.10 y 3.12
 pyenv install 3.10.0

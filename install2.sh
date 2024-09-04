@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Instalar dependencias necesarias
+sudo apt-get update
 sudo apt-get install -y build-essential bluez bluetooth libbluetooth-dev pulseaudio-module-bluetooth zstd unzip liblzma-dev libcairo2-dev libgirepository1.0-dev libbluetooth-dev libdbus-1-dev bluez-tools python3-cairo-dev rfkill meson patchelf bluez ubertooth adb python-is-python3 git libncursesw5-dev libssl-dev libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev wget binutils-arm-linux-gnueabi openjdk-17-jdk openjdk-17-jre android-sdk-platform-tools
 
 # Instalar pyenv para gestionar las versiones de Python
@@ -85,7 +86,7 @@ python -m venv bluing
 source bluing/bin/activate
 
 # Instalar dependencias en el entorno bluing
-python -m pip install --upgrade pip venv setuptools wheel
+python -m pip install --upgrade pip setuptools wheel
 python -m pip install dbus-python==1.2.18
 python -m pip install --no-dependencies bluing PyGObject docopt btsm btatt bluepy configobj btl2cap pkginfo xpycommon halo pyserial bthci btgatt log_symbols colorama spinners six termcolor
 
